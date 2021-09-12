@@ -1,19 +1,16 @@
-from rest_framework import viewsets, generics
+from rest_framework import viewsets
 from rest_framework import filters
-import django_filters as filters
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.response import Response
 from django.contrib.auth.models import User
 from agenda.models import Agenda, Consulta, Horario
-import datetime
 from agenda.serializers import UserSerializer, AgendaSerializer, ConsultaSerializer, HorarioSerializer
-from rest_framework.authentication import SessionAuthentication, BasicAuthentication
-from rest_framework.permissions import IsAuthenticated
 from rest_framework.authtoken.models import Token
-from rest_framework import permissions
 from rest_framework.permissions import AllowAny, IsAuthenticatedOrReadOnly
+from rest_framework.decorators import permission_classes
 
-from rest_framework.decorators import api_view, permission_classes
+import django_filters as filters
+import datetime
 
 # ViewSets define the view behavior.
 @permission_classes((AllowAny, ))
