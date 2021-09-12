@@ -1,2 +1,1 @@
-# Desafio-Intmed
-Neste desafio consta uma interface administrativa que na qual o gestor da clínica (superusuário) poderá cadastrar especialidades, médicos e disponibilizar horários nos quais os clientes poderão marcar as consultas.
+![Medicar](https://user-images.githubusercontent.com/37720085/133004538-b4401636-7c15-439f-8acf-64755ffb0421.png)
