@@ -1,4 +1,4 @@
 # Medicar
 
-## Desafio: 
-Medicar, um sistema para gestão de consultas em uma clínica médica.
+## Requisitos
+- Python 3.8.10
