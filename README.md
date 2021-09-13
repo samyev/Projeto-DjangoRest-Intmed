@@ -35,5 +35,3 @@ web_1  | Watching for file changes with StatReloader
 
 ### 3 - Realize o login na página de administração do django, utilize as credenciais que você criou para o seu super usuário
 > localhost:8000/admin
-
-
