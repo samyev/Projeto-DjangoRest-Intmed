@@ -37,7 +37,7 @@ class Migration(migrations.Migration):
                 ('agenda', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='horarios', to='agenda.agenda')),
             ],
             options={
-                'ordering': ['agenda__dia', 'horario'],
+                'ordering': ['agenda_dia', 'horario'],
             },
         ),
         migrations.CreateModel(

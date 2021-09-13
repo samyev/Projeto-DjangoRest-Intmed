@@ -36,6 +36,7 @@ class ConsultaViewSet(viewsets.ModelViewSet):
     
 
     def create(self, request):
+        print(request.data)
         agenda_id = request.data['agenda_id']
         horario_req = request.data['horario']
 

@@ -7,7 +7,7 @@ from django.core.exceptions import ValidationError
 class Agenda(models.Model):
     def validate_date(date):
         if date < datetime.date.today():
-            raise ValidationError("Date cannot be in the past")
+            raise ValidationError("Data inválida!")
             
     medico = models.ForeignKey(Medico, blank=False, on_delete=models.CASCADE)
     dia = models.DateField(blank=False, default=datetime.date.today, validators=[validate_date])
@@ -34,7 +34,7 @@ class Horario(models.Model):
         return self.get_horario() + ' - ' + self.agenda.__str__()
 
     class Meta:
-        ordering = ['agenda__dia','horario']
+        ordering = ['agenda_dia','horario']
 
 class Consulta(models.Model):
     paciente = models.ForeignKey(User, on_delete=models.CASCADE)
