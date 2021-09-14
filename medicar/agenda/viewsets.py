@@ -77,7 +77,7 @@ class AgendaViewSet(viewsets.ModelViewSet):
     serializer_class = AgendaSerializer
         
     def get_queryset(self):
-        agenda = Agenda.objects.filter(dia__gte=datetime.date.today())
+        agenda = Agenda.objects.filter(dia_gte=datetime.date.today())
         return agenda
 
     class AgendaDateFilter(filters.FilterSet):
@@ -87,7 +87,7 @@ class AgendaViewSet(viewsets.ModelViewSet):
             model = Agenda
             fields = [
                 'medico',
-                'medico__especialidade',
+                'medico_especialidade',
                 'dia'
             ]
 
