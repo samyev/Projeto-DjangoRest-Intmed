@@ -13,14 +13,15 @@ variáveis de ambiente configuradas no arquivo .env.sample e cole em seu .env
 
 ### 2 - Aplique as migrates para que você possa ter acesso ao banco de dados da aplicação
 Você deve aplicar as migrates criadas a partir dos models da aplicação, assim você
-terá um esquema de banco de dados para utilizar. Ainda no diretório atual **desafio-intmed/medicar**, 
+terá um esquema de banco de dados para utilizar. Em um terminal, dentro do diretório 
+**desafio-intmed/medicar** execute o comando a baixo: 
 execute o comando a baixo:
 ~~~Shel
 $ python3 manage.py migrate
 ~~~
 
 ### 3 - Crie um usuário administrador para gerenciar sua aplicação
-Em um terminal, dentro do diretório **desafio-intmed/medicar** execute o comando a baixo:
+Ainda no mesmo diretório diretório **desafio-intmed/medicar**, execute o comando a baixo:
 ~~~Shel
 $ python3 manage.py createsuperuser
 ~~~
