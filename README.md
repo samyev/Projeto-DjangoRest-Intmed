@@ -24,6 +24,12 @@ Ainda no mesmo diretório diretório **desafio-intmed/medicar**, execute o coman
 ~~~Shel
 $ python3 manage.py createsuperuser
 ~~~
+~~~Shel
+Usuário (leave blank to use 'user'): 
+Endereço de email: 
+Password: 
+Password (again):
+~~~
 
 ## Rodando a Aplicação
 
