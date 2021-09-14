@@ -20,7 +20,7 @@ $ python3 manage.py migrate
 ~~~
 
 ### 3 - Crie um usuário administrador para gerenciar sua aplicação
-Ainda no mesmo diretório diretório **desafio-intmed/medicar**, execute o comando a baixo e siga as instruções:
+Ainda no mesmo diretório **desafio-intmed/medicar**, execute o comando a baixo e siga as instruções:
 ~~~Shel
 $ python3 manage.py createsuperuser
 ~~~
