@@ -34,7 +34,7 @@ class Horario(models.Model):
         return self.get_horario() + ' - ' + self.agenda.__str__()
 
     class Meta:
-        ordering = ['agenda_dia','horario']
+        ordering = ['horario']
 
 class Consulta(models.Model):
     paciente = models.ForeignKey(User, on_delete=models.CASCADE)
