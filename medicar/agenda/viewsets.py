@@ -1,81 +1,75 @@
-from rest_framework import viewsets
-from rest_framework import filters
-from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework.response import Response
-from django.contrib.auth.models import User
-from agenda.models import Agenda, Consulta, Horario
-from agenda.serializers import UserSerializer, AgendaSerializer, ConsultaSerializer, HorarioSerializer
-from rest_framework.authtoken.models import Token
-from rest_framework.permissions import AllowAny, IsAuthenticatedOrReadOnly
-from rest_framework.decorators import permission_classes
-
-import django_filters as filters
 import datetime
 
-# ViewSets define the view behavior.
-@permission_classes((AllowAny, ))
+import django_filters as filters
+
+from django.contrib.auth.models import User
+
+from rest_framework import status, viewsets
+from rest_framework.response import Response
+
+from rest_framework.permissions import AllowAny, IsAuthenticatedOrReadOnly
+
+from django_filters.rest_framework import DjangoFilterBackend
+
+from agenda.models import Agenda, Consulta, Horario
+from agenda.serializers import (
+    UserSerializer, AgendaSerializer, ConsultaReadSerializer,
+    ConsultaWriteSerializer, HorarioSerializer
+)
+
+
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
+    permission_classes = [AllowAny]
 
-    def create(self, request):
-        print(request.data)
-        username = request.data['username']
-        email = request.data['email']
-        password = request.data['password']
-        user = User(username=username, email=email)
-        user.set_password(password)
-        user.save()
-        Token.objects.create(user=user)
-        return Response({'status': 'Usuario criado'})
+    def check_object_permissions(self, request, obj):
+        if request.user.is_superuser:
+            return
 
-@permission_classes((IsAuthenticatedOrReadOnly, ))
+        if not request.user == obj:
+            self.permission_denied(
+                request,
+                message="não pode cara",
+                code=status.HTTP_403_FORBIDDEN
+            )
+
+
 class ConsultaViewSet(viewsets.ModelViewSet):
     queryset = Consulta.objects.all()
-    serializer_class = ConsultaSerializer
-    
+    serializer_class = ConsultaWriteSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly]
 
     def create(self, request):
-        print(request.data)
-        agenda_id = request.data['agenda_id']
-        horario_req = request.data['horario']
+        serializer = self.get_serializer(data=request.data)
 
-        agenda = Agenda.objects.get(id=agenda_id)
+        serializer.is_valid(raise_exception=True)
 
-        horario = Horario.objects.get(agenda=agenda, horario=datetime.datetime.strptime(horario_req, '%H:%M'))
+        consulta = serializer.save()
 
-        consulta = Consulta()
+        serializer = ConsultaReadSerializer(consulta)
 
-        consulta.horario = horario
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
 
-        username = request.user.get_username()
-        user = User.objects.get(username=username)
-
-        consulta.paciente = user
-
-        if Consulta.objects.filter(horario=horario):
-            resp = Response({'status': 'Horário já preenchido'})
-        else:
-            consulta.save()
-            resp = Response({'status': 'Consulta criada'})
-        
-        return resp
-
-    def list(self,request):
+    def list(self, request):
         username = None
         if request.user.is_authenticated:
             username = request.user.get_username()
             user = User.objects.get(username=username)
             consultas = Consulta.objects.filter(paciente=user.id)
-            return Response(ConsultaSerializer(consultas, many=True).data)
+            return Response(ConsultaReadSerializer(consultas, many=True).data)
 
         else:
-           return Response({'status': 'Realize o login para acessar as consultas'})
+            return Response(
+                {
+                   'status': 'Realize o login para acessar as consultas'
+                }
+            )
 
 
 class AgendaViewSet(viewsets.ModelViewSet):
     serializer_class = AgendaSerializer
-        
+
     def get_queryset(self):
         agenda = Agenda.objects.filter(dia__gte=datetime.date.today())
         return agenda
